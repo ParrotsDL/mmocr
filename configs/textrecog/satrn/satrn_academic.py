@@ -85,14 +85,14 @@ test_pipeline = [
 
 dataset_type = 'OCRDataset'
 
-train_prefix = 'data/mixture/'
+train_prefix = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/mixture/'
 
-train_img_prefix1 = train_prefix + \
-    'SynthText/synthtext/SynthText_patch_horizontal'
-train_img_prefix2 = train_prefix + 'Syn90k/mnt/ramdisk/max/90kDICT32px'
+# train_img_prefix2 = train_prefix + \
+#     'SynthText/synthtext/SynthText_patch_horizontal'
+train_img_prefix1 = train_prefix + 'Syn90k/mnt/ramdisk/max/90kDICT32px'
 
-train_ann_file1 = train_prefix + 'SynthText/label.lmdb'
-train_ann_file2 = train_prefix + 'Syn90k/label.lmdb'
+#train_ann_file2 = train_prefix + 'SynthText/label.lmdb'
+train_ann_file1 = train_prefix + 'Syn90k/label.lmdb'
 
 train1 = dict(
     type=dataset_type,
@@ -109,11 +109,11 @@ train1 = dict(
     pipeline=None,
     test_mode=False)
 
-train2 = {key: value for key, value in train1.items()}
-train2['img_prefix'] = train_img_prefix2
-train2['ann_file'] = train_ann_file2
+# train2 = {key: value for key, value in train1.items()}
+# train2['img_prefix'] = train_img_prefix2
+# train2['ann_file'] = train_ann_file2
 
-test_prefix = 'data/mixture/'
+test_prefix = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/mixture/'
 test_img_prefix1 = test_prefix + 'IIIT5K/'
 test_img_prefix2 = test_prefix + 'svt/'
 test_img_prefix3 = test_prefix + 'icdar_2013/'
@@ -170,7 +170,7 @@ data = dict(
     test_dataloader=dict(samples_per_gpu=1),
     train=dict(
         type='UniformConcatDataset',
-        datasets=[train1, train2],
+        datasets=[train1],# train2],
         pipeline=train_pipeline),
     val=dict(
         type='UniformConcatDataset',

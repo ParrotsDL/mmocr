@@ -74,8 +74,8 @@ test_pipeline = [
 
 dataset_type = 'OCRDataset'
 
-train_img_prefix = 'data/mixture/Syn90k/mnt/ramdisk/max/90kDICT32px'
-train_ann_file = 'data/mixture/Syn90k/label.lmdb'
+train_img_prefix = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/mixture/Syn90k/mnt/ramdisk/max/90kDICT32px'
+train_ann_file = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/mixture/Syn90k/label.lmdb'
 
 train1 = dict(
     type=dataset_type,
@@ -92,7 +92,7 @@ train1 = dict(
     pipeline=None,
     test_mode=False)
 
-test_prefix = 'data/mixture/'
+test_prefix = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/mixture/'
 
 test_img_prefix1 = test_prefix + 'IIIT5K/'
 test_img_prefix2 = test_prefix + 'svt/'

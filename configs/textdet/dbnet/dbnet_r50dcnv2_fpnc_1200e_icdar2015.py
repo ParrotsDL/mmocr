@@ -1,7 +1,7 @@
 _base_ = [
     '../../_base_/schedules/schedule_1200e.py', '../../_base_/runtime_10e.py'
 ]
-load_from = 'checkpoints/textdet/dbnet/res50dcnv2_synthtext.pth'
+load_from = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/pretrain/dbnet_r50dcnv2_fpnc_sbn_2e_synthtext_20210325-aa96e477.pth'
 
 model = dict(
     type='DBNet',
@@ -28,7 +28,7 @@ model = dict(
     test_cfg=None)
 
 dataset_type = 'IcdarDataset'
-data_root = 'data/icdar2015/'
+data_root = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/icdar2015/'
 # img_norm_cfg = dict(
 #    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # from official dbnet code

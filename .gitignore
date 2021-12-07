@@ -141,3 +141,7 @@ mmocr/.mim
 workdirs/
 .history/
 .dev/
+
+# user
+algolib_gen/
+workdir/
