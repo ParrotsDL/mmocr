@@ -1,6 +1,22 @@
 #!/bin/bash
 set -x
- 
+
+workdir=$(cd $(dirname $1); pwd)
+if [[ "$workdir" =~ "submodules/mmocr" ]]
+then
+    if [ ! -d "$workdir/../mmdet/mmdet" ]
+    then
+        cd ../..
+        git submodule update --init submodules/mmdet
+        cd -
+    fi
+else
+    if [ ! -d "$workdir/submodules/mmdet/mmdet" ]
+    then
+        git submodule update --init submodules/mmdet
+    fi
+fi
+
 # 0. placeholder
 workdir=$(cd $(dirname $1); pwd)
 if [[ "$workdir" =~ "submodules/mmocr" ]]
