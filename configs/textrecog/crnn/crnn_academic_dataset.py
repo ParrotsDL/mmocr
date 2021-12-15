@@ -8,7 +8,7 @@ log_config = dict(
 
     ])
 # yapf:enable
-dist_params = dict(backend='nccl', port=29506)
+dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None
 resume_from = None
