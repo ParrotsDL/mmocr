@@ -35,7 +35,7 @@ def train_detector(model,
             num_gpus=len(cfg.gpu_ids)),
         **({} if torch.__version__ != 'parrots' else dict(
                prefetch_num=2,
-               pin_memory=False,
+               # pin_memory=False,
            )),
         **dict((k, cfg.data[k]) for k in [
                    'samples_per_gpu',
@@ -155,6 +155,9 @@ def train_detector(model,
             priority = hook_cfg.pop('priority', 'NORMAL')
             hook = build_from_cfg(hook_cfg, HOOKS)
             runner.register_hook(hook, priority=priority)
+    
+    for hook in getattr(torch, '_algolib_hooks', []):
+        runner.register_hook(hook, priority='HIGHEST')
 
     if cfg.resume_from:
         runner.resume(cfg.resume_from)

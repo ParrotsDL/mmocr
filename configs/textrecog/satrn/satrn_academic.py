@@ -85,7 +85,7 @@ test_pipeline = [
 
 dataset_type = 'OCRDataset'
 
-train_prefix = 'data/mixture/'
+train_prefix = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/mixture/'
 
 train_img_prefix1 = train_prefix + \
     'SynthText/synthtext/SynthText_patch_horizontal'
@@ -113,7 +113,7 @@ train2 = {key: value for key, value in train1.items()}
 train2['img_prefix'] = train_img_prefix2
 train2['ann_file'] = train_ann_file2
 
-test_prefix = 'data/mixture/'
+test_prefix = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/mixture/'
 test_img_prefix1 = test_prefix + 'IIIT5K/'
 test_img_prefix2 = test_prefix + 'svt/'
 test_img_prefix3 = test_prefix + 'icdar_2013/'
