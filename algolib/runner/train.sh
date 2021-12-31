@@ -95,10 +95,9 @@ case $MODEL_NAME in
     "dbnet_r50dcnv2_fpnc_1200e_icdar2015")
         FULL_MODEL="textdet/dbnet/dbnet_r50dcnv2_fpnc_1200e_icdar2015"
         ;;
-    # 该模型精度未对齐，低了4.2%，见issue：https://jira.sensetime.com/browse/PARROTSXQ-7943
-    # "panet_r18_fpem_ffm_600e_icdar2015")
-    #     FULL_MODEL="textdet/panet/panet_r18_fpem_ffm_600e_icdar2015"
-    #     ;;
+    "panet_r18_fpem_ffm_600e_icdar2015")
+        FULL_MODEL="textdet/panet/panet_r18_fpem_ffm_600e_icdar2015"
+        ;;
     "crnn_academic_dataset")
         FULL_MODEL="textrecog/crnn/crnn_academic_dataset"
         ;;
