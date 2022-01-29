@@ -24,7 +24,7 @@ model = dict(
     test_cfg=None)
 
 dataset_type = 'IcdarDataset'
-data_root = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/icdar2017/'
+data_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2017/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [

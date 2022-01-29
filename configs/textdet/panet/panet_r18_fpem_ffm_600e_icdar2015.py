@@ -11,7 +11,7 @@ model = dict(
         out_indices=(0, 1, 2, 3),
         frozen_stages=-1,
         norm_cfg=dict(type='SyncBN', requires_grad=True),
-        init_cfg=dict(type='Pretrained', checkpoint='/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/pretrain/resnet18-f37072fd.pth'),
+        init_cfg=dict(type='Pretrained', checkpoint='/mnt/lustre/share_data/PAT/datasets/mmocr/pretrain/resnet18-f37072fd.pth'),
         norm_eval=True,
         style='caffe'),
     neck=dict(type='FPEM_FFM', in_channels=[64, 128, 256, 512]),
@@ -25,7 +25,7 @@ model = dict(
     test_cfg=None)
 
 dataset_type = 'IcdarDataset'
-data_root = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/icdar2015/'
+data_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2015/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # for visualizing img, pls uncomment it.
