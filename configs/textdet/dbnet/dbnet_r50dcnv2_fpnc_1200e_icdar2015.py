@@ -1,7 +1,7 @@
 _base_ = [
     '../../_base_/schedules/schedule_1200e.py', '../../_base_/runtime_10e.py'
 ]
-load_from = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/pretrain/dbnet_r50dcnv2_fpnc_sbn_2e_synthtext_20210325-aa96e477.pth'
+load_from = '/mnt/lustre/share_data/PAT/datasets/mmocr/pretrain/dbnet_r50dcnv2_fpnc_sbn_2e_synthtext_20210325-aa96e477.pth'
 
 model = dict(
     type='DBNet',
@@ -15,7 +15,7 @@ model = dict(
         norm_eval=False,
         style='caffe',
         dcn=dict(type='DCNv2', deform_groups=1, fallback_on_stride=False),
-        init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50'),
+        init_cfg=dict(type='Pretrained', checkpoint='/mnt/lustre/share_data/PAT/datasets/pretrain/torchvision/resnet50-19c8e357.pth'),
         stage_with_dcn=(False, True, True, True)),
     neck=dict(
         type='FPNC', in_channels=[256, 512, 1024, 2048], lateral_channels=256),
@@ -28,7 +28,7 @@ model = dict(
     test_cfg=None)
 
 dataset_type = 'IcdarDataset'
-data_root = '/mnt/lustre/share_data/parrots_algolib/datasets/mmocr/icdar2015/'
+data_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2015/'
 # img_norm_cfg = dict(
 #    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # from official dbnet code
