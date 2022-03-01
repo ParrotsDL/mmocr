@@ -39,8 +39,25 @@ lr_config = dict(policy='step', step=[3, 4])
 total_epochs = 6
 
 img_norm_cfg = dict(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+
+file_client_args = dict(
+    backend='petrel',
+    path_mapping=dict({
+        './train_data1/': 'openmmlab:s3://openmmlab/datasets/ocr/recog/SynthText/synthtext/SynthText_patch_horizontal/',
+        './train_data2/': 'openmmlab:s3://openmmlab/datasets/ocr/recog/mnt/ramdisk/max/90kDICT32px/',
+        './test_data/': 'PAT:s3://PAT/datasets/mmocr/mixture/',
+    }))
+train_img_prefix1 = './train_data1/'
+train_img_prefix2 = './train_data2/'
+test_img_prefix = './test_data/'
+
+# file_client_args = dict(backend='disk')
+# train_img_prefix1 = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/SynthText/synthtext/SynthText_patch_horizontal/'
+# train_img_prefix2 = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/Syn90k/mnt/ramdisk/max/90kDICT32px/'
+# test_img_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
+
 train_pipeline = [
-    dict(type='LoadImageFromFile'),
+    dict(type='LoadImageFromFile', file_client_args=file_client_args),
     dict(
         type='ResizeOCR',
         height=32,
@@ -59,7 +76,7 @@ train_pipeline = [
         ]),
 ]
 test_pipeline = [
-    dict(type='LoadImageFromFile'),
+    dict(type='LoadImageFromFile', file_client_args=file_client_args),
     dict(
         type='MultiRotateAugOCR',
         rotate_degrees=[0, 90, 270],
@@ -87,10 +104,6 @@ dataset_type = 'OCRDataset'
 
 train_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
 
-train_img_prefix1 = train_prefix + \
-    'SynthText/synthtext/SynthText_patch_horizontal'
-train_img_prefix2 = train_prefix + 'Syn90k/mnt/ramdisk/max/90kDICT32px'
-
 train_ann_file1 = train_prefix + 'SynthText/label.lmdb'
 train_ann_file2 = train_prefix + 'Syn90k/label.lmdb'
 
@@ -114,12 +127,12 @@ train2['img_prefix'] = train_img_prefix2
 train2['ann_file'] = train_ann_file2
 
 test_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
-test_img_prefix1 = test_prefix + 'IIIT5K/'
-test_img_prefix2 = test_prefix + 'svt/'
-test_img_prefix3 = test_prefix + 'icdar_2013/'
-test_img_prefix4 = test_prefix + 'icdar_2015/'
-test_img_prefix5 = test_prefix + 'svtp/'
-test_img_prefix6 = test_prefix + 'ct80/'
+test_img_prefix1 = test_img_prefix + 'IIIT5K/'
+test_img_prefix2 = test_img_prefix + 'svt/'
+test_img_prefix3 = test_img_prefix + 'icdar_2013/'
+test_img_prefix4 = test_img_prefix + 'icdar_2015/'
+test_img_prefix5 = test_img_prefix + 'svtp/'
+test_img_prefix6 = test_img_prefix + 'ct80/'
 
 test_ann_file1 = test_prefix + 'IIIT5K/test_label.txt'
 test_ann_file2 = test_prefix + 'svt/test_label.txt'

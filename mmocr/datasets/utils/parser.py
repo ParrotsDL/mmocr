@@ -43,6 +43,8 @@ class LineStrParser:
         line_info = {}
         for i, key in enumerate(self.keys):
             line_info[key] = line_str[self.keys_idx[i]]
+            if line_info[key].startswith('./'):
+                line_info[key] = line_info[key][2:]
         return line_info
 
 

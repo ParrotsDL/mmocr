@@ -23,12 +23,22 @@ model = dict(
     train_cfg=None,
     test_cfg=None)
 
+file_client_args = dict(
+    backend='petrel',
+    path_mapping=dict({
+        './data': 'PAT:s3://PAT/datasets/mmocr/icdar2017',
+    }))
+imge_root = './data'
+
+# file_client_args = dict(backend='disk')
+# imge_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2017'
+
 dataset_type = 'IcdarDataset'
-data_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2017/'
+data_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2017'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
-    dict(type='LoadImageFromFile', color_type='color_ignore_orientation'),
+    dict(type='LoadImageFromFile', color_type='color_ignore_orientation', file_client_args=file_client_args),
     dict(
         type='LoadTextAnnotations',
         with_bbox=True,
@@ -59,7 +69,7 @@ train_pipeline = [
     dict(type='Collect', keys=['img', 'gt_kernels', 'gt_mask'])
 ]
 test_pipeline = [
-    dict(type='LoadImageFromFile', color_type='color_ignore_orientation'),
+    dict(type='LoadImageFromFile', color_type='color_ignore_orientation', file_client_args=file_client_args),
     dict(
         type='MultiScaleFlipAug',
         img_scale=(1333, 800),
@@ -80,16 +90,16 @@ data = dict(
     train=dict(
         type=dataset_type,
         ann_file=data_root + '/instances_training.json',
-        img_prefix=data_root + '/imgs',
+        img_prefix=imge_root + '/imgs',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         ann_file=data_root + '/instances_val.json',
-        img_prefix=data_root + '/imgs',
+        img_prefix=imge_root + '/imgs',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=data_root + '/instances_val.json',
-        img_prefix=data_root + '/imgs',
+        img_prefix=imge_root + '/imgs',
         pipeline=test_pipeline))
 evaluation = dict(interval=10, metric='hmean-iou')

@@ -41,8 +41,21 @@ total_epochs = 5
 # data
 img_norm_cfg = dict(mean=[127], std=[127])
 
+file_client_args = dict(
+    backend='petrel',
+    path_mapping=dict({
+        './train_data/': 'openmmlab:s3://openmmlab/datasets/ocr/recog/mnt/ramdisk/max/90kDICT32px/',
+        './test_data/': 'PAT:s3://PAT/datasets/mmocr/mixture/',
+    }))
+train_img_prefix = './train_data/'
+test_img_prefix = './test_data/'
+
+# file_client_args = dict(backend='disk')
+# train_img_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/Syn90k/mnt/ramdisk/max/90kDICT32px/'
+# test_img_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
+
 train_pipeline = [
-    dict(type='LoadImageFromFile', color_type='grayscale'),
+    dict(type='LoadImageFromFile', color_type='grayscale', file_client_args=file_client_args),
     dict(
         type='ResizeOCR',
         height=32,
@@ -57,7 +70,7 @@ train_pipeline = [
         meta_keys=['filename', 'resize_shape', 'text', 'valid_ratio']),
 ]
 test_pipeline = [
-    dict(type='LoadImageFromFile', color_type='grayscale'),
+    dict(type='LoadImageFromFile', color_type='grayscale', file_client_args=file_client_args),
     dict(
         type='ResizeOCR',
         height=32,
@@ -74,7 +87,6 @@ test_pipeline = [
 
 dataset_type = 'OCRDataset'
 
-train_img_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/Syn90k/mnt/ramdisk/max/90kDICT32px'
 train_ann_file = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/Syn90k/label.lmdb'
 
 train1 = dict(
@@ -94,12 +106,12 @@ train1 = dict(
 
 test_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
 
-test_img_prefix1 = test_prefix + 'IIIT5K/'
-test_img_prefix2 = test_prefix + 'svt/'
-test_img_prefix3 = test_prefix + 'icdar_2013/'
-test_img_prefix4 = test_prefix + 'icdar_2015/'
-test_img_prefix5 = test_prefix + 'svtp/'
-test_img_prefix6 = test_prefix + 'ct80/'
+test_img_prefix1 = test_img_prefix + 'IIIT5K/'
+test_img_prefix2 = test_img_prefix + 'svt/'
+test_img_prefix3 = test_img_prefix + 'icdar_2013/'
+test_img_prefix4 = test_img_prefix + 'icdar_2015/'
+test_img_prefix5 = test_img_prefix + 'svtp/'
+test_img_prefix6 = test_img_prefix + 'ct80/'
 
 test_ann_file1 = test_prefix + 'IIIT5K/test_label.txt'
 test_ann_file2 = test_prefix + 'svt/test_label.txt'

@@ -24,8 +24,18 @@ model = dict(
     train_cfg=None,
     test_cfg=None)
 
+file_client_args = dict(
+    backend='petrel',
+    path_mapping=dict({
+        './data': 'openmmlab:s3://openmmlab/datasets/ocr/det/icdar2015',
+    }))
+imge_root = './data'
+
+# file_client_args = dict(backend='disk')
+# imge_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2015'
+
 dataset_type = 'IcdarDataset'
-data_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2015/'
+data_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2015'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 # for visualizing img, pls uncomment it.
@@ -33,7 +43,7 @@ img_norm_cfg = dict(
 #    mean=[0, 0, 0], std=[1, 1, 1], to_rgb=True)
 
 train_pipeline = [
-    dict(type='LoadImageFromFile', color_type='color_ignore_orientation'),
+    dict(type='LoadImageFromFile', color_type='color_ignore_orientation', file_client_args=file_client_args),
     dict(
         type='LoadTextAnnotations',
         with_bbox=True,
@@ -64,7 +74,7 @@ train_pipeline = [
     dict(type='Collect', keys=['img', 'gt_kernels', 'gt_mask'])
 ]
 test_pipeline = [
-    dict(type='LoadImageFromFile', color_type='color_ignore_orientation'),
+    dict(type='LoadImageFromFile', color_type='color_ignore_orientation', file_client_args=file_client_args),
     dict(
         type='MultiScaleFlipAug',
         img_scale=(1333, 736),
@@ -87,18 +97,18 @@ data = dict(
         ann_file=data_root + '/instances_training.json',
         # for debugging top k imgs
         # select_first_k=200,
-        img_prefix=data_root + '/imgs',
+        img_prefix=imge_root + '/imgs',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         ann_file=data_root + '/instances_test.json',
-        img_prefix=data_root + '/imgs',
+        img_prefix=imge_root + '/imgs',
         # select_first_k=100,
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=data_root + '/instances_test.json',
-        img_prefix=data_root + '/imgs',
+        img_prefix=imge_root + '/imgs',
         # select_first_k=100,
         pipeline=test_pipeline))
 evaluation = dict(interval=10, metric='hmean-iou')
