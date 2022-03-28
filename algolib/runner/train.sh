@@ -64,7 +64,7 @@ export MODEL_NAME=$3
 
 # mmdetpath
 SHELL_PATH=$(dirname $0)
-export PYTHONPATH=$PYTHONPATH:$SHELL_PATH/../../../mmdet
+export PYTHONPATH=$SHELL_PATH/../../../mmdet:$PYTHONPATH
 
 # init_path
 export PYTHONPATH=$init_path/common/sites/:$PYTHONPATH # necessary for init
