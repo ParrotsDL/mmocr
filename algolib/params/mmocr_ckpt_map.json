@@ -1,0 +1,14 @@
+{
+    "satrn_academic": {
+        "path": "/mnt/lustre/share_data/PAT/datasets/mmocr/checkpoint/satrn_academic/epoch_6.pth"
+    },
+    "panet_r18_fpem_ffm_600e_icdar2015": {
+        "path": "/mnt/lustre/share_data/PAT/datasets/mmocr/checkpoint/panet_r18_fpem_ffm_600e_icdar2015/epoch_600.pth"
+    },
+    "dbnet_r50dcnv2_fpnc_1200e_icdar2015": {
+        "path": "/mnt/lustre/share_data/PAT/datasets/mmocr/checkpoint/dbnet_r50dcnv2_fpnc_1200e_icdar2015/epoch_1200.pth"
+    },
+    "crnn_academic_dataset": {
+        "path": "/mnt/lustre/share_data/PAT/datasets/mmocr/checkpoint/crnn_academic_dataset/epoch_5.pth"
+    }
+}
