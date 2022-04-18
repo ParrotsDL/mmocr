@@ -1,0 +1,14 @@
+{
+    "dbnet_r50dcnv2_fpnc_1200e_icdar2015": {
+        "rate": [
+            0.01,
+            0.05
+        ]
+    },
+    "crnn_academic_dataset": {
+        "rate": [
+            0.01,
+            0.01
+        ]
+    }
+}
