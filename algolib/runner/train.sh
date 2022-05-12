@@ -1,69 +1,58 @@
 #!/bin/bash
 set -x
+set -o pipefail
+set -e
 
+# 0. check the most important SMART_ROOT
+echo  "!!!!!SMART_ROOT is" $SMART_ROOT
 if $SMART_ROOT; then
     echo "SMART_ROOT is None,Please set SMART_ROOT"
     exit 0
 fi
 
-if [ -x "$SMART_ROOT/submodules" ];then
-    submodules_root=$SMART_ROOT
-else    
-    submodules_root=$PWD
-fi
-
-if [[ "$submodules_root" =~ "submodules/mmocr" ]]
-then
-    if [ ! -d "$submodules_root/../mmdet/mmdet" ]
+# 1. set env_path and build soft links for mm configs
+if [[ $PWD =~ "mmocr" ]]
+then 
+    pyroot=$PWD
+    if [ ! -d "$PWD/../mmdet/mmdet" ]
     then
-        cd ../..
-        git submodule update --init submodules/mmdet
+        cd ..
+        git submodule update --init mmdet
         cd -
     fi
 else
-    if [ ! -d "$submodules_root/submodules/mmdet/mmdet" ]
+    pyroot=$PWD/mmocr
+    if [ ! -d "$PWD/mmdet/mmdet" ]
     then
-        git submodule update --init submodules/mmdet
+        git submodule update --init mmdet
     fi
 fi
-
-# 0. placeholder
-if [ -d "$submodules_root/submodules/mmocr/algolib/configs" ]
-then
-    rm -rf $submodules_root/submodules/mmocr/algolib/configs
-    ln -s $submodules_root/submodules/mmocr/configs $submodules_root/submodules/mmocr/algolib/
-else
-    ln -s $submodules_root/submodules/mmocr/configs $submodules_root/submodules/mmocr/algolib/
-fi
- 
-# 1. build file folder for save log,format: algolib_gen/frame
-mkdir -p algolib_gen/mmocr/$3
-export PYTORCH_VERSION=1.4
- 
-# 2. set time
-now=$(date +"%Y%m%d_%H%M%S")
- 
-# 3. set env
-path=$PWD
-if [[ "$path" =~ "submodules" ]]
-then
-    pyroot=$submodules_root/mmocr
-else
-    pyroot=$submodules_root/submodules/mmocr
-fi
 echo $pyroot
+if [ -d "$pyroot/algolib/configs" ]
+then
+    rm -rf $pyroot/algolib/configs
+    ln -s $pyroot/configs $pyroot/algolib/
+else
+    ln -s $pyroot/configs $pyroot/algolib/
+fi
+ 
+# 2. build file folder for save log,format: algolib_gen/frame
+mkdir -p algolib_gen/mmocr/$3
+now=$(date +"%Y%m%d_%H%M%S")
+
+# 3. set env variables
+export PYTORCH_VERSION=1.4
 export PYTHONPATH=$pyroot:$PYTHONPATH
 export FRAME_NAME=mmocr    #customize for each frame
 export MODEL_NAME=$3
+export PARROTS_DEFAULT_LOGGER=FALSE
 
-# mmdetpath
-SHELL_PATH=$(dirname $0)
-export PYTHONPATH=$SHELL_PATH/../../../mmdet:$PYTHONPATH
-
-# init_path
+# 4. mmdetpath and init_path
+export PYTHONPATH=$pyroot/../mmdet:$PYTHONPATH
+export PYTHONPATH=${SMART_ROOT}:$PYTHONPATH
 export PYTHONPATH=$SMART_ROOT/common/sites/:$PYTHONPATH
  
-# 4. build necessary parameter
+# 5. build necessary parameter
 partition=$1 
 name=$3
 MODEL_NAME=$3
@@ -73,10 +62,7 @@ EXTRA_ARGS=${array[@]:3}
 EXTRA_ARGS=${EXTRA_ARGS//--resume/--resume-from}
 SRUN_ARGS=${SRUN_ARGS:-""}
  
-# 5. model choice
-export PARROTS_DEFAULT_LOGGER=FALSE
-
-
+# 6. model list
 case $MODEL_NAME in
     "dbnet_r50dcnv2_fpnc_1200e_icdar2015")
         FULL_MODEL="textdet/dbnet/dbnet_r50dcnv2_fpnc_1200e_icdar2015"
@@ -96,11 +82,12 @@ case $MODEL_NAME in
        ;; 
 esac
 
+# 7. set port and choice model
 port=`expr $RANDOM % 10000 + 20000`
-
 file_model=${FULL_MODEL##*/}
 folder_model=${FULL_MODEL%/*}
 
+# 8. run model
 srun -p $1 -n$2\
         --gres gpu:$g \
         --ntasks-per-node $g \
