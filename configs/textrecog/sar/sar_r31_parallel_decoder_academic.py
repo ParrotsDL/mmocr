@@ -77,7 +77,8 @@ test_pipeline = [
 
 dataset_type = 'OCRDataset'
 
-train_prefix = 'data/mixture/'
+# train_prefix = 'data/mixture/'
+train_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
 
 train_img_prefix1 = train_prefix + 'icdar_2011'
 train_img_prefix2 = train_prefix + 'icdar_2013'
@@ -151,7 +152,9 @@ train8 = {key: value for key, value in train6.items()}
 train8['img_prefix'] = train_img_prefix8
 train8['ann_file'] = train_ann_file8
 
-test_prefix = 'data/mixture/'
+
+test_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
+# test_prefix = 'data/mixture/'
 test_img_prefix1 = test_prefix + 'IIIT5K/'
 test_img_prefix2 = test_prefix + 'svt/'
 test_img_prefix3 = test_prefix + 'icdar_2013/'

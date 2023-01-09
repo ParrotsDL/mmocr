@@ -75,6 +75,9 @@ case $MODEL_NAME in
     "satrn_academic")
         FULL_MODEL="textrecog/satrn/satrn_academic"
         ;;
+    "sar_r31_parallel_decoder_academic")
+        FULL_MODEL="textrecog/sar/sar_r31_parallel_decoder_academic"
+        ;;
     *)
        echo "invalid $MODEL_NAME"
        exit 1
@@ -94,3 +97,4 @@ srun -p $1 -n$2\
     python -u $pyroot/tools/train.py $pyroot/algolib/configs/$folder_model/$file_model.py --launcher=slurm  \
     --work-dir=algolib_gen/${FRAME_NAME}/${MODEL_NAME} --options dist_params.port=$port $EXTRA_ARGS \
     2>&1 | tee algolib_gen/${FRAME_NAME}/${MODEL_NAME}/train.${MODEL_NAME}.log.$now
+
