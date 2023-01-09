@@ -101,8 +101,18 @@ class ParallelSARDecoder(BaseDecoder):
                       feat,
                       holistic_feat,
                       valid_ratios=None):
-        y = self.rnn_decoder(decoder_input)[0]
+
+        decoder_input = decoder_input.cpu()
+        
+        
+        self = self.cpu()
+
+        y = self.rnn_decoder(decoder_input.cpu())[0].cuda()
         # y: bsz * (seq_len + 1) * hidden_size
+
+        # y =  y.cuda()
+        self = self.cuda()
+
 
         attn_query = self.conv1x1_1(y)  # bsz * (seq_len + 1) * attn_size
         bsz, seq_len, attn_size = attn_query.size()

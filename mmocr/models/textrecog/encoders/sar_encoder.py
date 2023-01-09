@@ -82,9 +82,15 @@ class SAREncoder(BaseEncoder):
         feat_v = F.max_pool2d(
             feat, kernel_size=(h_feat, 1), stride=1, padding=0)
         feat_v = feat_v.squeeze(2)  # bsz * C * W
-        feat_v = feat_v.permute(0, 2, 1).contiguous()  # bsz * W * C
+        feat_v = feat_v.permute(0, 2, 1).contiguous().cpu()  # bsz * W * C
+        
+        # feat_v = feat_v.cpu()
+        self = self.cpu()
 
-        holistic_feat = self.rnn_encoder(feat_v)[0]  # bsz * T * C
+        holistic_feat = self.rnn_encoder(feat_v)[0].cuda()  # bsz * T * C
+
+        # holistic_feat = holistic_feat.cuda()
+        self = self.cuda()
 
         if valid_ratios is not None:
             valid_hf = []
