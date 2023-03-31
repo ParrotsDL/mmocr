@@ -177,7 +177,6 @@ def main():
         **dict(seed=cfg.get('seed'), drop_last=False, dist=distributed),
         **({} if torch.__version__ != 'parrots' else dict(
                prefetch_num=2,
-               pin_memory=False,
            )),
         **dict((k, cfg.data[k]) for k in [
                    'workers_per_gpu',
