@@ -27,15 +27,15 @@ model = dict(
     train_cfg=None,
     test_cfg=None)
 
-file_client_args = dict(
-    backend='petrel',
-    path_mapping=dict({
-        './data': 'openmmlab:s3://openmmlab/datasets/ocr/det/icdar2015',
-    }))
-imge_root = './data'
+# file_client_args = dict(
+#     backend='petrel',
+#     path_mapping=dict({
+#         './data': 'openmmlab:s3://openmmlab/datasets/ocr/det/icdar2015',
+#     }))
+# imge_root = './data'
 
-# file_client_args = dict(backend='disk')
-# imge_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2015'
+file_client_args = dict(backend='disk')
+imge_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2015'
 
 dataset_type = 'IcdarDataset'
 data_root = '/mnt/lustre/share_data/PAT/datasets/mmocr/icdar2015'
