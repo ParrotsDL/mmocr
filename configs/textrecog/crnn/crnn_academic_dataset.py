@@ -41,18 +41,18 @@ total_epochs = 5
 # data
 img_norm_cfg = dict(mean=[127], std=[127])
 
-file_client_args = dict(
-    backend='petrel',
-    path_mapping=dict({
-        './train_data/': 'openmmlab:s3://openmmlab/datasets/ocr/recog/mnt/ramdisk/max/90kDICT32px/',
-        './test_data/': 'PAT:s3://PAT/datasets/mmocr/mixture/',
-    }))
-train_img_prefix = './train_data/'
-test_img_prefix = './test_data/'
+# file_client_args = dict(
+#     backend='petrel',
+#     path_mapping=dict({
+#         './train_data/': 'openmmlab:s3://openmmlab/datasets/ocr/recog/mnt/ramdisk/max/90kDICT32px/',
+#         './test_data/': 'PAT:s3://PAT/datasets/mmocr/mixture/',
+#     }))
+# train_img_prefix = './train_data/'
+# test_img_prefix = './test_data/'
 
-# file_client_args = dict(backend='disk')
-# train_img_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/Syn90k/mnt/ramdisk/max/90kDICT32px/'
-# test_img_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
+file_client_args = dict(backend='disk')
+train_img_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/Syn90k/mnt/ramdisk/max/90kDICT32px/'
+test_img_prefix = '/mnt/lustre/share_data/PAT/datasets/mmocr/mixture/'
 
 train_pipeline = [
     dict(type='LoadImageFromFile', color_type='grayscale', file_client_args=file_client_args),
